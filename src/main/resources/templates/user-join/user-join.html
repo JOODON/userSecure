@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>회원 가입</title>
+  <meta charset="UTF-8">
+  <style>
+    /* 스타일을 적용할 요소 선택자들 */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    /* 입력란을 가운데로 정렬하는 스타일 */
+    .input-container {
+      max-width: 700px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    /* 입력 요소 스타일 */
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    input[type="tel"]{
+      width: 98%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      margin-bottom: 15px;
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+    }
+    input[type="text"]:focus ,
+    input[type="password"]:focus ,
+    input[type="email"]:focus ,
+    input[type="tel"]:focus{
+      transform: translateY(-4px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    button {
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<body>
+  <h1>유저 등록</h1>
+
+  <!-- 입력란을 감싸는 div -->
+  <div class="input-container">
+    <label for="username">아이디:</label>
+    <input type="text" id="username" name="username" required><br>
+
+    <label for="password">비밀번호:</label>
+    <input type="password" id="password" name="password" required><br>
+
+    <label for="email">이메일:</label>
+    <input type="email" id="email" name="email" required><br>
+
+    <label for="address">주소:</label>
+    <input type="text" id="address" name="address" required><br>
+
+    <label for="phoneNumber">전화번호:</label>
+    <input type="tel" id="phoneNumber" name="phoneNumber" required><br>
+
+    <button id="signup-button">가입하기</button>
+  </div>
+
+  <p id="message"></p>
+
+  <script>
+    // JQuery 를 사용하여 클릭 이벤트 처리
+    $(document).ready(function () {
+      $("#signup-button").click(function () {
+        const username = $("#username").val();
+        const password = $("#password").val();
+        const email = $("#email").val();
+        const address = $("#address").val();
+        const phoneNumber = $("#phoneNumber").val();
+
+        const userData = {
+          username: username,
+          password: password,
+          email: email,
+          address: address,
+          phoneNumber: phoneNumber
+        };
+
+        $.ajax({
+          type: 'POST',
+          url: '/api/signup',
+          contentType: 'application/json',
+          data: JSON.stringify(userData),
+          success: function (data) {
+            $("#message").text(data.message);
+          },
+          error: function (error) {
+            console.error('회원가입 오류:', error);
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
